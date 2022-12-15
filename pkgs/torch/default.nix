@@ -32,8 +32,20 @@ in
     (old:
       let
         version = "0.15.0.dev20221214";
-        unsupported = throw "Unsupported system for torch";
+        unsupported = throw "Unsupported system for torchvision-bin";
         wheels = import ./binary-hashes.nix "torchvision" version;
+      in
+      {
+        inherit version;
+        src = fetchurl wheels.${systemPyVersionTag} or unsupported;
+      });
+
+  torchaudio-bin = python-super.torchaudio-bin.overridePythonAttrs
+    (old:
+      let
+        version = "0.14.0.dev20221214";
+        unsupported = throw "Unsupported system for torchaudio-bin";
+        wheels = import ./binary-hashes.nix "torchaudio" version;
       in
       {
         inherit version;

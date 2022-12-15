@@ -210,6 +210,67 @@ package: version: builtins.getAttr version (builtins.getAttr package {
       };
     };
   };
+
+  torchaudio = {
+    "0.14.0.dev20221214" = {
+      x86_64-linux-37 = {
+        name = "torchaudio-0.14.0.dev20221214-cp37-cp37m-linux_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cu117/torchaudio-0.14.0.dev20221214%2Bcu117-cp37-cp37m-linux_x86_64.whl";
+        hash = "sha256-pkAFpCA3Dqhfb+Jvq72276jSp1t9htKgCv6pmwBmid8=";
+      };
+      x86_64-linux-38 = {
+        name = "torchaudio-0.14.0.dev20221214-cp38-cp38-linux_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cu117/torchaudio-0.14.0.dev20221214%2Bcu117-cp38-cp38-linux_x86_64.whl";
+        hash = "sha256-2utX4dyoAjH2iu18uWj6FaaCFWYcHw7dthfZNuS8hwQ=";
+      };
+      x86_64-linux-39 = {
+        name = "torchaudio-0.14.0.dev20221214-cp39-cp39-linux_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cu117/torchaudio-0.14.0.dev20221214%2Bcu117-cp39-cp39-linux_x86_64.whl";
+        hash = "sha256-8cv3+h64y/2Cslt5fsucEwc9r/xn/WjqQDtFI466aHU=";
+      };
+      x86_64-linux-310 = {
+        name = "torchaudio-0.14.0.dev20221214-cp310-cp310-linux_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cu117/torchaudio-0.14.0.dev20221214%2Bcu117-cp310-cp310-linux_x86_64.whl";
+        hash = "sha256-8FG9Vn3Cs2aTSRwXxo2+WxM83+AhT3ui2q777hoOA6A=";
+      };
+      x86_64-darwin-37 = {
+        name = "torchaudio-0.14.0.dev20221214-cp37-cp37m-macosx_10_9_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchaudio-0.14.0.dev20221214-cp37-cp37m-macosx_10_9_x86_64.whl";
+        hash = "sha256-x7RddfvKe+yXmLoTR6OKOqyRM9DFDG1seBOo6zxnOUQ=";
+      };
+      x86_64-darwin-38 = {
+        name = "torchaudio-0.14.0.dev20221214-cp38-cp38-macosx_10_9_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchaudio-0.14.0.dev20221214-cp38-cp38-macosx_10_9_x86_64.whl";
+        hash = "sha256-kKCCs5WrSMffN8ZlBIc2v8mBHu9esny1ihievYe36HY=";
+      };
+      x86_64-darwin-39 = {
+        name = "torchaudio-0.14.0.dev20221214-cp39-cp39-macosx_10_9_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchaudio-0.14.0.dev20221214-cp39-cp39-macosx_10_9_x86_64.whl";
+        hash = "sha256-sOe9FkA41L8SG/veOTWQSmmxy+fpKbu27lUsyNXMkVo=";
+      };
+      x86_64-darwin-310 = {
+        name = "torchaudio-0.14.0.dev20221214-cp310-cp310-macosx_10_9_x86_64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchaudio-0.14.0.dev20221214-cp310-cp310-macosx_10_9_x86_64.whl";
+        hash = "sha256-/4owzk083cgufhSMT0YHsLuNxB3+uDgXhkiDH62T48k=";
+      };
+      aarch64-darwin-38 = {
+        name = "torchaudio-0.14.0.dev20221214-cp38-cp38-macosx_12_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cpu/torchaudio-0.14.0.dev20221214-cp38-cp38-macosx_12_0_arm64.whl";
+        hash = "sha256-8XISaHktBUNP5KtvTx8qTRSvnj/1qkT6g+coxoUoK/0=";
+      };
+      aarch64-darwin-39 = {
+        name = "torchaudio-0.14.0.dev20221214-cp39-cp39-macosx_12_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cpu/torchaudio-0.14.0.dev20221214-cp39-cp39-macosx_12_0_arm64.whl";
+        hash = "sha256-3qvGoEBYZRb5fT1vgw+h0OpOgexCjNv+U9/Fr5fLw/I=";
+      };
+      aarch64-darwin-310 = {
+        name = "torchaudio-0.14.0.dev20221214-cp310-cp310-macosx_12_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/cpu/torchaudio-0.14.0.dev20221214-cp310-cp310-macosx_12_0_arm64.whl";
+        hash = "sha256-z73jN+GwZF8xUER2tnbJT9rgy0Fr8+VD8JVvrYH7oYM=";
+      };
+    };
+  };
+
   torchdata = {
     "0.6.0.dev20221214" = {
       x86_64-linux-37 = {
@@ -253,19 +314,19 @@ package: version: builtins.getAttr version (builtins.getAttr package {
         hash = "sha256-/rxh96wNPTVWO7XDOUkKFiuMB3Bk5F/UyBEKrEdqs+w=";
       };
       aarch64-darwin-38 = {
-        name = "torchdata-0.6.0.dev20221214-cp38-cp38-macosx_10_13_x86_64.whl";
-        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp38-cp38-macosx_10_13_x86_64.whl";
-        hash = "sha256-9nDuviCsAWUBbccXwjbTVHh++osIwUoUKm1gb7MDbkU=";
+        name = "torchdata-0.6.0.dev20221214-cp38-cp38-macosx_11_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp38-cp38-macosx_11_0_arm64.whl";
+        hash = "sha256-tw/lX/B61rW2DoHwDEzTkeLJ/am4P3zMaajUZl3+ByU=";
       };
       aarch64-darwin-39 = {
-        name = "torchdata-0.6.0.dev20221214-cp39-cp39-macosx_10_13_x86_64.whl";
-        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp39-cp39-macosx_10_13_x86_64.whl";
-        hash = "sha256-zOadfDnoXC47wAZFLvPVy3OJO4JjU4iGtZt8v7kzLLA=";
+        name = "torchdata-0.6.0.dev20221214-cp39-cp39-macosx_11_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp39-cp39-macosx_11_0_arm64.whl";
+        hash = "sha256-UTej+IOQD9XncheeEEyWYjFQICUDMOj0Emnl9PGTa2g=";
       };
       aarch64-darwin-310 = {
-        name = "torchdata-0.6.0.dev20221214-cp310-cp310-macosx_10_13_x86_64.whl";
-        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp310-cp310-macosx_10_13_x86_64.whl";
-        hash = "sha256-/rxh96wNPTVWO7XDOUkKFiuMB3Bk5F/UyBEKrEdqs+w=";
+        name = "torchdata-0.6.0.dev20221214-cp310-cp310-macosx_11_0_arm64.whl";
+        url = "https://download.pytorch.org/whl/nightly/torchdata-0.6.0.dev20221214-cp310-cp310-macosx_11_0_arm64.whl";
+        hash = "sha256-BI6RJXFpKvYvFgtM4wge5z/cewkDpSDFziIhFYBiziU=";
       };
     };
   };
