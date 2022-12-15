@@ -16,6 +16,7 @@ default_torch_version = "2.0.0.dev20221214"
 default_torchtriton_version = "2.0.0+0d7e753227"
 default_torchvision_version = "0.15.0.dev20221214"
 default_torchtext_version = "0.15.0.dev20221214"
+default_torchdata_version = "0.6.0.dev20221214"
 
 packages = {
     "torch": [
@@ -37,7 +38,7 @@ packages = {
         ("x86_64-linux", "38", default_torchtriton_version, None),
         ("x86_64-linux", "39", default_torchtriton_version, None),
         ("x86_64-linux", "310", default_torchtriton_version, None),
-        ("x86_64-linux", "311", default_torchtriton_version, None),
+        # ("x86_64-linux", "311", default_torchtriton_version, None),
     ],
     "torchvision": [
         ("x86_64-linux", "37", default_torchvision_version, default_cuda_version),
@@ -64,6 +65,19 @@ packages = {
         ("aarch64-darwin", "38", default_torchtext_version, None),
         ("aarch64-darwin", "39", default_torchtext_version, None),
         ("aarch64-darwin", "310", default_torchtext_version, None),
+    ],
+    "torchdata": [
+        ("x86_64-linux", "37", default_torchdata_version, None),
+        ("x86_64-linux", "38", default_torchdata_version, None),
+        ("x86_64-linux", "39", default_torchdata_version, None),
+        ("x86_64-linux", "310", default_torchdata_version, None),
+        ("x86_64-darwin", "37", default_torchdata_version, None),
+        ("x86_64-darwin", "38", default_torchdata_version, None),
+        ("x86_64-darwin", "39", default_torchdata_version, None),
+        ("x86_64-darwin", "310", default_torchdata_version, None),
+        ("aarch64-darwin", "38", default_torchdata_version, None),
+        ("aarch64-darwin", "39", default_torchdata_version, None),
+        ("aarch64-darwin", "310", default_torchdata_version, None),
     ],
 }
 
@@ -92,7 +106,10 @@ def get_wheel_url(
     cuda_version=None,
 ):
     if cuda_version is None or cuda_version == "cpu":
-        if package_name in ("torchtriton", "torchtext") and "linux" in platform_tag:
+        print(platform_tag)
+        if (
+            package_name in ("torchtriton", "torchtext") and "linux" in platform_tag
+        ) or package_name == "torchdata":
             base_url = "https://download.pytorch.org/whl/nightly"
         else:
             base_url = "https://download.pytorch.org/whl/nightly/cpu"
@@ -143,6 +160,12 @@ def generate_section_for_package(package_name, variants):
 
     for nix_system, nix_python_version, package_version, cuda_version in variants:
         platform_tag = nix_system_to_platform_tag[nix_system]
+        if package_name == "torchdata":
+            if "linux_x86_64" in platform_tag:
+                platform_tag = "manylinux_2_17_x86_64.manylinux2014_x86_64"
+            if "macosx" in platform_tag:
+                platform_tag = "macosx_10_13_x86_64"
+
         python_tag = to_python_tag(nix_python_version)
 
         wheel_url = get_wheel_url(

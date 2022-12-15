@@ -28,10 +28,8 @@
       let
         pkgs = channels.nixpkgs;
         overlay-pkgs = utils.lib.exportPackages self.overlays channels;
-        tvm-torchbench-python-env = pkgs.python3.withPackages (python-packages: with python-packages; [
-          pandas
-          requests
-        ]);
+        mkPythonEnv = pkgs.callPackage (import ./mkPythonEnv.nix) { };
+        tvm-torchbench-python-env = mkPythonEnv { python = pkgs.python39; };
         inherit (pkgs) stdenv lib;
       in
       {
