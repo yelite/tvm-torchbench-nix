@@ -27,15 +27,18 @@
     outputsBuilder = channels:
       let
         pkgs = channels.nixpkgs;
-        overlay-pkgs = utils.lib.exportPackages self.overlays channels;
-        mkPythonEnv = pkgs.callPackage (import ./mkPythonEnv.nix) { };
-        tvm-torchbench-python-env = mkPythonEnv { python = pkgs.python39; };
         inherit (pkgs) stdenv lib;
+        overlay-pkgs = utils.lib.exportPackages self.overlays channels;
+        pythonLib = pkgs.callPackage ./python.nix { };
+        benchmark-python-env = pythonLib.mkBenchmarkPythonEnv {
+          python = pkgs.python39;
+        };
       in
       {
         packages = overlay-pkgs // {
-          inherit tvm-torchbench-python-env;
-        };
+          inherit benchmark-python-env;
+        } // (pythonLib.extractOverriddenPackages benchmark-python-env "benchmark-python-env");
+
         devShell = pkgs.mkShell {
           name = "tvm-torchbench-shell";
           packages = (with pkgs; [
