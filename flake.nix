@@ -44,7 +44,7 @@
           packages = (with pkgs; [
             git-lfs
             cmake
-            tvm-torchbench-python-env
+            benchmark-python-env
           ]);
           shellHook = ''
             export TVM_HOME=$(pwd)/../tvm-nix/tvm

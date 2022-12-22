@@ -28,7 +28,9 @@ in
             pytorch-bin
             torchvision-bin
             torchtext-bin
+            torchbench
             torchbench-model-bert-pytorch
+            pytest
           ]);
       in
       pythonEnv.overrideAttrs

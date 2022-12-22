@@ -9,7 +9,9 @@ let
   systemPyVersionTag = "${stdenv.system}-${pyVerNoDot}";
 in
 {
-  pytorch-bin = python-super.pytorch-bin.overridePythonAttrs
+  pytorch-bin = python-self.torch-bin;
+
+  torch-bin = python-super.torch-bin.overridePythonAttrs
     (old:
       let
         version = "2.0.0.dev20221214";
@@ -38,6 +40,11 @@ in
       {
         inherit version;
         src = fetchurl wheels.${systemPyVersionTag} or unsupported;
+        postFixup = lib.optionalString stdenv.isLinux old.postFixup;
+        meta = old.meta // (with lib;
+          {
+            platforms = platforms.linux ++ platforms.darwin;
+          });
       });
 
   torchaudio-bin = python-super.torchaudio-bin.overridePythonAttrs
@@ -50,6 +57,11 @@ in
       {
         inherit version;
         src = fetchurl wheels.${systemPyVersionTag} or unsupported;
+        postFixup = lib.optionalString stdenv.isLinux old.postFixup;
+        meta = old.meta // (with lib;
+          {
+            platforms = platforms.linux ++ platforms.darwin;
+          });
       });
 
   torchtriton-bin = python-self.callPackage ./torchtriton.nix { };

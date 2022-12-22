@@ -29,12 +29,11 @@
   # , kornia  doesn't exist https://github.com/kornia/kornia
 , scipy
 
-  # From ./src.nix
-, src
+, torchbench-src
 }:
 
 buildPythonPackage {
-  version = src.rev or "unknown";
+  version = torchbench-src.rev or "unknown";
 
   pname = "torchbench-base";
 

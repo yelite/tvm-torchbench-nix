@@ -1,16 +1,23 @@
 { buildPythonPackage
 , python
 
-, torchbench-base
+, tqdm
+, numpy
 
-  # From ../src.nix
-, src
+, torchbench-base
+, torchbench-src
 }:
 
 buildPythonPackage {
   pname = "torchbench-model-bert-pytorch";
-  version = src.rev or "unknown";
-  inherit src;
+  version = torchbench-src.rev or "unknown";
 
+  format = "other";
+  dontUnpack = true;
   dontInstall = true;
+
+  propagatedBuildInputs = [
+    tqdm
+    numpy
+  ];
 }
