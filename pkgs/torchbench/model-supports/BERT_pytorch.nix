@@ -20,4 +20,17 @@ buildPythonPackage {
     tqdm
     numpy
   ];
+
+  checkInputs = [
+    torchbench-base
+  ];
+
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    ${python.interpreter} ${torchbench-src}/run.py BERT_pytorch
+
+    runHook postInstallCheck
+  '';
+
 }
