@@ -54,17 +54,19 @@ let
 
       installPhase = ''
         mkdir -p $out/${python.sitePackages}
-        cp -r $src/components $out/${python.sitePackages}/
-        cp -r $src/utils $out/${python.sitePackages}/
-        cp -r $src/torchbenchmark $out/${python.sitePackages}/
+        ln -s $src/components $out/${python.sitePackages}/
+        ln -s $src/utils $out/${python.sitePackages}/
+        ln -s $src/torchbenchmark $out/${python.sitePackages}/
     
+        mkdir -p $out/share/script
+        for f in test test_bench run run_sweep run_benchmark; do
+          cp $src/''${f}.py $out/share/script/
+        done
+
         mkdir $out/bin
 
-        echo "#!${python}/bin/python" >> $out/bin/torchbench_test
-        cat $src/test.py >> $out/bin/torchbench_test
-
-        echo "#!${python}/bin/python" >> $out/bin/torchbench_test_bench
-        cat $src/test_bench.py >> $out/bin/torchbench_test_bench
+        substitute ${./torchbench.sh} $out/bin/torchbench \
+          --subst-var-by torchbenchRoot $out/share/script
 
         chmod +x $out/bin/*
       '';
@@ -100,18 +102,20 @@ let
       passthru = {
         withModels = suffix: modelSupports:
           let
-            inherit (builtins) concatMap map isFunction removeAttrs;
-            maybeCallPackage = m: if isFunction m then callPackage m { } else m;
+            inherit (builtins) concatMap map isFunction isPath removeAttrs;
+            maybeCallPackage = m: if (isFunction m) || (isPath m) then callPackage m { } else m;
             injectedModelSupports = map maybeCallPackage modelSupports;
-            extraPythonPackages = concatMap (m: m.extraPythonPackages or[ ]) modelSupports;
+            extraPythonPackages = concatMap (m: m.extraPythonPackages or[ ]) injectedModelSupports;
           in
           base.overridePythonAttrs (old: {
             pname = old.pname + "-${suffix}";
             propagatedBuildInputs = old.propagatedBuildInputs ++ extraPythonPackages;
+
             passthru = removeAttrs old.passthru [ "withModels" ];
             meta = old.meta // { broken = false; };
           });
       };
+
       meta = {
         # This package is not supposed to be used directly. 
         # Use packageTorchBench to create the final package.
