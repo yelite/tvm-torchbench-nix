@@ -28,8 +28,7 @@ in
             pytorch-bin
             torchvision-bin
             torchtext-bin
-            torchbench
-            torchbench-model-bert-pytorch
+            torchbench-full
             pytest
           ]);
       in

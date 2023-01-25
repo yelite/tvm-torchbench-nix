@@ -31,7 +31,7 @@
         overlay-pkgs = utils.lib.exportPackages self.overlays channels;
         pythonLib = pkgs.callPackage ./python.nix { };
         benchmark-python-env = pythonLib.mkBenchmarkPythonEnv {
-          python = pkgs.python39;
+          python = pkgs.python310;
         };
       in
       {
