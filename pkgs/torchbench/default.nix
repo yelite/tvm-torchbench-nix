@@ -3,11 +3,16 @@
 }:
 python-self: python-super:
 let
-  base = python-self.callPackage ./base.nix { };
+  inherit (python-self) callPackage toPythonModule;
+  base = callPackage ./base.nix { };
 in
 {
+  torchbench-src = toPythonModule (callPackage ./src.nix { });
+  torchbench-weights = toPythonModule (callPackage ./weights { });
+
   torchbench-base = base.withModels "base" [ ];
   torchbench-full = base.withModels "full" [
     ./model-supports/BERT_pytorch.nix
+    ./model-supports/pytorch_unet.nix
   ];
 }

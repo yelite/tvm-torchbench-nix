@@ -1,4 +1,6 @@
 { stdenv
+, lib
+, runtimeShell
 , buildPythonPackage
 , fetchFromGitHub
 , callPackage
@@ -7,6 +9,9 @@
 , isPy39
 , isPy310
 , python
+
+, torchbench-src
+, torchbench-weights
 
   # Python Packages
 , pytorch-bin
@@ -31,22 +36,13 @@
 }:
 
 let
-  commit-rev = "b662a6fb";
-  src = fetchFromGitHub
-    {
-      owner = "pytorch";
-      repo = "benchmark";
-      rev = commit-rev;
-      fetchSubmodules = true;
-      fetchLFS = true;
-      sha256 = "sha256-zPvcia4TtbuL3euEZP8HhU2/SRkcoqZYFuhR/6TqiCc=";
-      name = "torchbench-src";
-    };
+  commit-rev = "9b9bcbc";
+
   base = buildPythonPackage
     {
       pname = "torchbench";
-      version = commit-rev;
-      inherit src;
+      version = torchbench-src.rev;
+      src = torchbench-src;
 
       format = "other";
 
@@ -65,8 +61,11 @@ let
 
         mkdir $out/bin
 
-        substitute ${./torchbench.sh} $out/bin/torchbench \
-          --subst-var-by torchbenchRoot $out/share/script
+        substitute ${./bin/torchbench.sh} $out/bin/torchbench \
+          --subst-var-by torchbenchRoot $out/share/script \
+          --subst-var-by python ${python}/bin/python \
+
+        patchShebangs --host $out/bin/torchbench
 
         chmod +x $out/bin/*
       '';
@@ -78,6 +77,9 @@ let
         torchvision-bin
         torchtext-bin
         torchaudio-bin
+
+        torchbench-weights
+
         beautifulsoup4
         patch
         py-cpuinfo
@@ -100,20 +102,130 @@ let
       ];
 
       passthru = {
+        torchHome = "${torchbench-weights}";
+
+        supportedModels = [
+          "resnet152"
+          "resnet18"
+          "resnet50"
+          "resnet50_quantized_qat"
+          "resnext50_32x4d"
+        ];
+
+        disabledModels = [
+          "Background_Matting" # Training only
+
+          "alexnet"
+          "attention_is_all_you_need_pytorch"
+          "DALLE2_pytorch"
+          "dcgan"
+          "demucs"
+          "densenet121"
+          "detectron2_fasterrcnn_r_101_c4"
+          "detectron2_fasterrcnn_r_101_dc5"
+          "detectron2_fasterrcnn_r_101_fpn"
+          "detectron2_fasterrcnn_r_50_c4"
+          "detectron2_fasterrcnn_r_50_dc5"
+          "detectron2_fasterrcnn_r_50_fpn"
+          "detectron2_fcos_r_50_fpn"
+          "detectron2_maskrcnn"
+          "detectron2_maskrcnn_r_101_c4"
+          "detectron2_maskrcnn_r_101_fpn"
+          "detectron2_maskrcnn_r_50_c4"
+          "detectron2_maskrcnn_r_50_fpn"
+          "dlrm"
+          "doctr_det_predictor"
+          "doctr_reco_predictor"
+          "drq"
+          "fambench_xlmr"
+          "fastNLP_Bert"
+          "functorch_dp_cifar10"
+          "functorch_maml_omniglot"
+          "hf_Albert"
+          "hf_Bart"
+          "hf_Bert"
+          "hf_Bert_large"
+          "hf_BigBird"
+          "hf_DistilBert"
+          "hf_GPT2"
+          "hf_GPT2_large"
+          "hf_Longformer"
+          "hf_Reformer"
+          "hf_T5"
+          "hf_T5_base"
+          "hf_T5_large"
+          "LearningToPaint"
+          "lennard_jones"
+          "maml"
+          "maml_omniglot"
+          "mnasnet1_0"
+          "mobilenet_v2"
+          "mobilenet_v2_quantized_qat"
+          "mobilenet_v3_large"
+          "moco"
+          "nvidia_deeprecommender"
+          "opacus_cifar10"
+          "phlippe_densenet"
+          "phlippe_resnet"
+          "pyhpc_equation_of_state"
+          "pyhpc_isoneutral_mixing"
+          "pyhpc_turbulent_kinetic_energy"
+          "pytorch_CycleGAN_and_pix2pix"
+          "pytorch_stargan"
+          "pytorch_struct"
+          "shufflenet_v2_x1_0"
+          "soft_actor_critic"
+          "speech_transformer"
+          "squeezenet1_1"
+          "Super_SloMo"
+          "tacotron2"
+          "timm_efficientdet"
+          "timm_efficientnet"
+          "timm_nfnet"
+          "timm_regnet"
+          "timm_resnest"
+          "timm_vision_transformer"
+          "timm_vision_transformer_large"
+          "timm_vovnet"
+          "tts_angular"
+          "vgg16"
+          "vision_maskrcnn"
+          "yolov3"
+        ];
+
         withModels = suffix: modelSupports:
           let
-            inherit (builtins) concatMap map isFunction isPath removeAttrs;
-            maybeCallPackage = m: if (isFunction m) || (isPath m) then callPackage m { } else m;
+            inherit (builtins) concatMap map isFunction isPath removeAttrs listToAttrs;
+            maybeCallPackage = m: (
+              if (isFunction m) || (isPath m)
+              then callPackage m { }
+              else m
+            );
             injectedModelSupports = map maybeCallPackage modelSupports;
-            extraPythonPackages = concatMap (m: m.extraPythonPackages or[ ]) injectedModelSupports;
-          in
-          base.overridePythonAttrs (old: {
-            pname = old.pname + "-${suffix}";
-            propagatedBuildInputs = old.propagatedBuildInputs ++ extraPythonPackages;
+            extraPythonPackages = concatMap (m: m.extraPythonPackages or [ ]) injectedModelSupports;
+            additionalSupportedModels = concatMap (m: m.models) injectedModelSupports;
+            supportedModels = lib.lists.unique (base.passthru.supportedModels ++ additionalSupportedModels);
+            final = base.overridePythonAttrs
+              (old: {
+                pname = old.pname + "-${suffix}";
+                propagatedBuildInputs = old.propagatedBuildInputs ++ extraPythonPackages;
 
-            passthru = removeAttrs old.passthru [ "withModels" ];
-            meta = old.meta // { broken = false; };
-          });
+                passthru = (removeAttrs old.passthru [ "withModels" ]) // {
+                  inherit supportedModels;
+                  tests = {
+                    allModels = callPackage ./test.nix { torchbench = final; models = supportedModels; };
+                  } // listToAttrs (map
+                    (model: {
+                      name = model;
+                      value = callPackage ./test.nix { torchbench = final; models = [ model ]; };
+                    })
+                    supportedModels
+                  );
+                };
+                meta = old.meta // { broken = false; };
+              });
+          in
+          final;
       };
 
       meta = {
