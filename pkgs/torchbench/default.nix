@@ -14,5 +14,6 @@ in
   torchbench-full = base.withModels "full" [
     ./model-supports/BERT_pytorch.nix
     ./model-supports/pytorch_unet.nix
+    ./model-supports/yolov3.nix
   ];
 }
