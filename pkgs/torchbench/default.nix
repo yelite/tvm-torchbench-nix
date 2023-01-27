@@ -8,7 +8,7 @@ let
 in
 {
   torchbench-src = toPythonModule (callPackage ./src.nix { });
-  torchbench-weights = toPythonModule (callPackage ./weights { });
+  torchbench-torch-home = toPythonModule (callPackage ./torch-home { });
 
   torchbench-base = base.withModels "base" [ ];
   torchbench-full = base.withModels "full" [

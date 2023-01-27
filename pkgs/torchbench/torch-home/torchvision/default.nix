@@ -27,8 +27,8 @@ toPythonModule (stdenvNoCC.mkDerivation {
   dontUnpack = true;
 
   installPhase = ''
-    mkdir $out
-    export TORCH_HOME=$out;
+    mkdir -p $out/share/torch
+    export TORCH_HOME=$out/share/torch;
 
     export PYTHONPATH=${torchbench-src}:$PYTHONPATH;
     python ${./download_torchvision_weights.py}
@@ -37,5 +37,5 @@ toPythonModule (stdenvNoCC.mkDerivation {
 
   outputHashAlgo = "sha256";
   outputHashMode = "recursive";
-  outputHash = "sha256-F/kwoyHww627cCyXpFXjchmBhJ1/3LNNdVLqSpdEySM=";
+  outputHash = "sha256-6MSEf7MK+XaCSwoKRSoJ/EvyRs8nWn5emq3gIYbfX0c=";
 })

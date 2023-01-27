@@ -11,7 +11,7 @@
 , python
 
 , torchbench-src
-, torchbench-weights
+, torchbench-torch-home
 
   # Python Packages
 , pytorch-bin
@@ -78,7 +78,7 @@ let
         torchtext-bin
         torchaudio-bin
 
-        torchbench-weights
+        torchbench-torch-home
 
         beautifulsoup4
         patch
@@ -102,8 +102,6 @@ let
       ];
 
       passthru = {
-        torchHome = "${torchbench-weights}";
-
         supportedModels = [
           "resnet152"
           "resnet18"
