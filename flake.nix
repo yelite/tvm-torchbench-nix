@@ -37,20 +37,9 @@
       {
         packages = overlay-pkgs // {
           inherit benchmark-python-env;
-        } // (pythonLib.extractOverriddenPackages benchmark-python-env "benchmark-python-env");
+        } // (pythonLib.extractOverriddenPackages benchmark-python-env "benchmark-python");
 
-        devShell = pkgs.mkShell {
-          name = "tvm-torchbench-shell";
-          packages = (with pkgs; [
-            git-lfs
-            cmake
-            benchmark-python-env
-          ]);
-          shellHook = ''
-            export TVM_HOME=$(pwd)/../tvm-nix/tvm
-            export PYTHONPATH="$TVM_HOME/python:$PYTHONPATH"
-          '';
-        };
+        devShell = benchmark-python-env.env;
       };
   };
 }

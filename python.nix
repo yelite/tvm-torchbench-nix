@@ -20,29 +20,36 @@ in
     }:
       assert python.isPy3;
       let
-        newPython = python.override {
+        basePython = python.override {
           packageOverrides = pythonPackageOverrides;
         };
-        pythonEnv = newPython.withPackages
-          (ps: with ps; [
-            pytorch-bin
-            torchvision-bin
-            torchtext-bin
-            torchbench-full
-            pytest
-          ]);
+        benchmarkPythonEnv = basePython.buildEnv.override
+          {
+            python = basePython;
+            extraLibs = with basePython.pkgs; [
+              torchbench-full
+              pytest
+            ];
+          };
+        patchShellWithTorchHome = shellEnv: shellEnv.overrideAttrs
+          (oldAttrs: {
+            nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
+              # To get the TORCH_HOME variable
+              benchmarkPythonEnv.pkgs.torchbench-torch-home
+            ];
+          });
       in
-      pythonEnv.overrideAttrs
+      benchmarkPythonEnv.overrideAttrs
         (oldAttrs: {
-          passthru = oldAttrs.passthru // { basePython = newPython; };
+          passthru = oldAttrs.passthru // {
+            env = patchShellWithTorchHome oldAttrs.passthru.env;
+          };
         });
 
   extractOverriddenPackages = pythonEnv: packagePrefix:
-    assert assertMsg (pythonEnv ? basePython)
-      "extractOverriddenPackages can only be used with python env from mkBenchmarkPythonEnv";
     let
       inherit (builtins) foldl';
-      pythonPackages = pythonEnv.basePython.pkgs;
+      pythonPackages = pythonEnv.pkgs;
       getPackage = name: {
         "${packagePrefix}-${name}" = pythonPackages.${name};
       };
