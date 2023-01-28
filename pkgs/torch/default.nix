@@ -9,6 +9,12 @@ let
   systemPyVersionTag = "${stdenv.system}-${pyVerNoDot}";
 in
 {
+  pytorch = python-self.torch-bin;
+  torch = python-self.torch-bin;
+  torchvision = python-self.torchvision-bin;
+  torchaudio = python-self.torchaudio-bin;
+  torchtext = python-self.torchtext-bin;
+
   pytorch-bin = python-self.torch-bin;
 
   torch-bin = python-super.torch-bin.overridePythonAttrs
