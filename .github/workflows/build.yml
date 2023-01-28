@@ -2,7 +2,7 @@ name: "Build standard benchmark environment"
 on:
   push:
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
