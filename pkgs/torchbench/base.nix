@@ -191,7 +191,7 @@ let
           "yolov3"
         ];
 
-        withModels = suffix: modelSupports:
+        withModels = tag: modelSupports:
           let
             inherit (builtins) concatMap map isFunction isPath removeAttrs listToAttrs;
             maybeCallPackage = m: (
@@ -203,23 +203,28 @@ let
             extraPythonPackages = concatMap (m: m.extraPythonPackages or [ ]) injectedModelSupports;
             additionalSupportedModels = concatMap (m: m.models) injectedModelSupports;
             supportedModels = lib.lists.unique (base.passthru.supportedModels ++ additionalSupportedModels);
+            makeModelTest = models:
+              callPackage ./test.nix {
+                inherit models;
+                torchbench = final;
+              };
             final = base.overridePythonAttrs
               (old: {
-                pname = old.pname + "-${suffix}";
+                pname = old.pname + "-${tag}";
                 propagatedBuildInputs = old.propagatedBuildInputs ++ extraPythonPackages;
-
                 passthru = (removeAttrs old.passthru [ "withModels" ]) // {
                   inherit supportedModels;
                   tests = {
-                    allModels = callPackage ./test.nix { torchbench = final; models = supportedModels; };
+                    allModels = makeModelTest supportedModels;
                   } // listToAttrs (map
                     (model: {
                       name = model;
-                      value = callPackage ./test.nix { torchbench = final; models = [ model ]; };
+                      value = makeModelTest [ model ];
                     })
                     supportedModels
                   );
                 };
+
                 meta = old.meta // { broken = false; };
               });
           in
