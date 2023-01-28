@@ -108,17 +108,23 @@ let
           "resnet50"
           "resnet50_quantized_qat"
           "resnext50_32x4d"
+          "vgg16"
+          "alexnet"
+          "mnasnet1_0"
+          "densenet121"
+          "mobilenet_v2"
+          "mobilenet_v3_large"
+          "squeezenet1_1"
+          "shufflenet_v2_x1_0"
         ];
 
         disabledModels = [
           "Background_Matting" # Training only
 
-          "alexnet"
           "attention_is_all_you_need_pytorch"
           "DALLE2_pytorch"
           "dcgan"
           "demucs"
-          "densenet121"
           "detectron2_fasterrcnn_r_101_c4"
           "detectron2_fasterrcnn_r_101_dc5"
           "detectron2_fasterrcnn_r_101_fpn"
@@ -156,10 +162,7 @@ let
           "lennard_jones"
           "maml"
           "maml_omniglot"
-          "mnasnet1_0"
-          "mobilenet_v2"
           "mobilenet_v2_quantized_qat"
-          "mobilenet_v3_large"
           "moco"
           "nvidia_deeprecommender"
           "opacus_cifar10"
@@ -171,10 +174,8 @@ let
           "pytorch_CycleGAN_and_pix2pix"
           "pytorch_stargan"
           "pytorch_struct"
-          "shufflenet_v2_x1_0"
           "soft_actor_critic"
           "speech_transformer"
-          "squeezenet1_1"
           "Super_SloMo"
           "tacotron2"
           "timm_efficientdet"
@@ -186,9 +187,7 @@ let
           "timm_vision_transformer_large"
           "timm_vovnet"
           "tts_angular"
-          "vgg16"
           "vision_maskrcnn"
-          "yolov3"
         ];
 
         withModels = tag: modelSupports:
