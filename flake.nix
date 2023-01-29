@@ -4,6 +4,11 @@
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
   };
 
+  nixConfig = {
+    extra-substituters = [ "https://tvm-torchbench.cachix.org" ];
+    extra-trusted-public-keys = [ "tvm-torchbench.cachix.org-1:QTN4bEtgXdLujhxhUA6deH67AqQtOSYnNtnf7uA9cNk=" ];
+  };
+
   outputs = { self, utils, nixpkgs, ... }@inputs: utils.lib.mkFlake {
     inherit self inputs;
 
