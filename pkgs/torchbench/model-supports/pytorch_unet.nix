@@ -1,6 +1,6 @@
 { numpy
 , pillow
-, wandb
+  # , wandb
 , tqdm
 , matplotlib
 }:
@@ -13,7 +13,8 @@
   extraPythonPackages = [
     numpy
     pillow
-    wandb
+    # Wait for https://github.com/NixOS/nixpkgs/pull/208232 getting into unstable
+    # wandb
     tqdm
     matplotlib
   ];
