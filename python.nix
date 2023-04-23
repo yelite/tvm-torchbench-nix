@@ -4,7 +4,6 @@
 }:
 
 let
-  inherit (lib.asserts) assertMsg;
   pythonPackageOverrides = lib.composeManyExtensions [
     (callPackage ./pkgs/torch { })
     (callPackage ./pkgs/torchbench { })

@@ -34,11 +34,12 @@
 , numpy  # TODO: TOrchBench pins it to 1.21.2
   # , kornia  doesn't exist https://github.com/kornia/kornia
 , scipy
+, numba
+  # stubs for unsupported platforms
+, pynvml-stub
 }:
 
 let
-  commit-rev = "9b9bcbc";
-
   base = buildPythonPackage
     {
       pname = "torchbench";
@@ -94,14 +95,20 @@ let
         pyyaml
         numpy # TODO: TorchBench pins it to 1.21.2
         scipy
+        numba
+
+        (
+          if stdenv.isLinux then
+            pynvml
+          else
+            pynvml-stub
+        )
 
         # submitit  Only used in distributed benchmark
         # MokeyType  Only used for dev
         # kornia  Only used for drq model
         # accelerate  Only used for e2e models
         # iopath  Not used 
-      ] ++ lib.optionals stdenv.isLinux [
-        pynvml
       ];
 
       passthru = {

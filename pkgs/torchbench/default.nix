@@ -30,4 +30,6 @@ in
   torchbench-full = makeTorchBench {
     tag = "full";
   };
+
+  pynvml-stub = callPackage ./stubs/pynvml { };
 }
