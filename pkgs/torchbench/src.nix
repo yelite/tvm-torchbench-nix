@@ -3,10 +3,10 @@
 fetchFromGitHub {
   owner = "pytorch";
   repo = "benchmark";
-  rev = "9b9bcbc";
+  rev = "7c2d3eb0e2bb238b97133192abfc02104b1b4b6e";
   fetchSubmodules = true;
   fetchLFS = true;
-  sha256 = "sha256-+SZ2HBTJaLGDahvaqAhcLVSq/wZo+HQd/Q0fGbL8iKE=";
+  sha256 = "sha256-RKbzTr1S6x5TF3RaeUdEQuqVBAt6uatKi0BuNXbwiHA=";
   name = "torchbench-src";
   postFetch = ''
     pushd $out/torchbenchmark/data

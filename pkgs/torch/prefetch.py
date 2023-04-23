@@ -10,88 +10,46 @@ nix_system_to_platform_tag = {
     "aarch64-darwin": "macosx_11_0_arm64",
 }
 
-default_cuda_version = "cu117"
+default_cuda_version = "cu118"
 cpu = "cpu"
-default_torch_version = "2.0.0.dev20221214"
-default_torchtriton_version = "2.0.0+0d7e753227"
-default_torchvision_version = "0.15.0.dev20221214"
-default_torchtext_version = "0.15.0.dev20221214"
-default_torchaudio_version = "0.14.0.dev20221214"
-default_torchdata_version = "0.6.0.dev20221214"
+default_torch_version = "2.0.0"
+default_torchtriton_version = "2.0.0"
+default_torchvision_version = "0.15.1"
+default_torchtext_version = "0.15.1"
+default_torchaudio_version = "2.0.1"
+default_torchdata_version = "0.6.0"
+
+# supported_python_versions = ["38", "39", "310", "311"]
+supported_python_versions = ["310"]
 
 packages = {
     "torch": [
-        ("x86_64-linux", "37", default_torch_version, default_cuda_version),
-        ("x86_64-linux", "38", default_torch_version, default_cuda_version),
-        ("x86_64-linux", "39", default_torch_version, default_cuda_version),
-        ("x86_64-linux", "310", default_torch_version, default_cuda_version),
-        # ("x86_64-linux", "311", default_torch_version, default_cuda_version),
-        ("x86_64-darwin", "37", default_torch_version, None),
-        ("x86_64-darwin", "38", default_torch_version, None),
-        ("x86_64-darwin", "39", default_torch_version, None),
-        ("x86_64-darwin", "310", default_torch_version, None),
-        ("aarch64-darwin", "38", default_torch_version, None),
-        ("aarch64-darwin", "39", default_torch_version, None),
-        ("aarch64-darwin", "310", default_torch_version, None),
+        ("x86_64-linux", default_torch_version, default_cuda_version),
+        ("x86_64-darwin", default_torch_version, None),
+        ("aarch64-darwin", default_torch_version, None),
     ],
-    "torchtriton": [
-        ("x86_64-linux", "37", default_torchtriton_version, None),
-        ("x86_64-linux", "38", default_torchtriton_version, None),
-        ("x86_64-linux", "39", default_torchtriton_version, None),
-        ("x86_64-linux", "310", default_torchtriton_version, None),
-        # ("x86_64-linux", "311", default_torchtriton_version, None),
+    "triton": [
+        ("x86_64-linux", default_torchtriton_version, None),
     ],
     "torchvision": [
-        ("x86_64-linux", "37", default_torchvision_version, default_cuda_version),
-        ("x86_64-linux", "38", default_torchvision_version, default_cuda_version),
-        ("x86_64-linux", "39", default_torchvision_version, default_cuda_version),
-        ("x86_64-linux", "310", default_torchvision_version, default_cuda_version),
-        ("x86_64-darwin", "37", default_torchvision_version, None),
-        ("x86_64-darwin", "38", default_torchvision_version, None),
-        ("x86_64-darwin", "39", default_torchvision_version, None),
-        ("x86_64-darwin", "310", default_torchvision_version, None),
-        ("aarch64-darwin", "38", default_torchvision_version, None),
-        ("aarch64-darwin", "39", default_torchvision_version, None),
-        ("aarch64-darwin", "310", default_torchvision_version, None),
+        ("x86_64-linux", default_torchvision_version, default_cuda_version),
+        ("x86_64-darwin", default_torchvision_version, None),
+        ("aarch64-darwin", default_torchvision_version, None),
     ],
     "torchtext": [
-        ("x86_64-linux", "37", default_torchtext_version, cpu),
-        ("x86_64-linux", "38", default_torchtext_version, cpu),
-        ("x86_64-linux", "39", default_torchtext_version, cpu),
-        ("x86_64-linux", "310", default_torchtext_version, cpu),
-        ("x86_64-darwin", "37", default_torchtext_version, None),
-        ("x86_64-darwin", "38", default_torchtext_version, None),
-        ("x86_64-darwin", "39", default_torchtext_version, None),
-        ("x86_64-darwin", "310", default_torchtext_version, None),
-        ("aarch64-darwin", "38", default_torchtext_version, None),
-        ("aarch64-darwin", "39", default_torchtext_version, None),
-        ("aarch64-darwin", "310", default_torchtext_version, None),
+        ("x86_64-linux", default_torchtext_version, cpu),
+        ("x86_64-darwin", default_torchtext_version, None),
+        ("aarch64-darwin", default_torchtext_version, None),
     ],
     "torchaudio": [
-        ("x86_64-linux", "37", default_torchaudio_version, default_cuda_version),
-        ("x86_64-linux", "38", default_torchaudio_version, default_cuda_version),
-        ("x86_64-linux", "39", default_torchaudio_version, default_cuda_version),
-        ("x86_64-linux", "310", default_torchaudio_version, default_cuda_version),
-        ("x86_64-darwin", "37", default_torchaudio_version, None),
-        ("x86_64-darwin", "38", default_torchaudio_version, None),
-        ("x86_64-darwin", "39", default_torchaudio_version, None),
-        ("x86_64-darwin", "310", default_torchaudio_version, None),
-        ("aarch64-darwin", "38", default_torchaudio_version, None),
-        ("aarch64-darwin", "39", default_torchaudio_version, None),
-        ("aarch64-darwin", "310", default_torchaudio_version, None),
+        ("x86_64-linux", default_torchaudio_version, default_cuda_version),
+        ("x86_64-darwin", default_torchaudio_version, None),
+        ("aarch64-darwin", default_torchaudio_version, None),
     ],
     "torchdata": [
-        ("x86_64-linux", "37", default_torchdata_version, None),
-        ("x86_64-linux", "38", default_torchdata_version, None),
-        ("x86_64-linux", "39", default_torchdata_version, None),
-        ("x86_64-linux", "310", default_torchdata_version, None),
-        ("x86_64-darwin", "37", default_torchdata_version, None),
-        ("x86_64-darwin", "38", default_torchdata_version, None),
-        ("x86_64-darwin", "39", default_torchdata_version, None),
-        ("x86_64-darwin", "310", default_torchdata_version, None),
-        ("aarch64-darwin", "38", default_torchdata_version, None),
-        ("aarch64-darwin", "39", default_torchdata_version, None),
-        ("aarch64-darwin", "310", default_torchdata_version, None),
+        ("x86_64-linux", default_torchdata_version, None),
+        ("x86_64-darwin", default_torchdata_version, None),
+        ("aarch64-darwin", default_torchdata_version, None),
     ],
 }
 
@@ -121,15 +79,15 @@ def get_wheel_url(
 ):
     if cuda_version is None or cuda_version == "cpu":
         if (
-            (package_name in ("torchtriton", "torchtext") and "linux" in platform_tag)
+            (package_name in ("triton", "torchtext") and "linux" in platform_tag)
             or package_name == "torchdata"
-            or (package_name == "torchaudio" and "arm64" not in platform_tag)
+            or (package_name == "torchaudio" and "macosx" not in platform_tag)
         ):
-            base_url = "https://download.pytorch.org/whl/nightly"
+            base_url = "https://download.pytorch.org/whl"
         else:
-            base_url = "https://download.pytorch.org/whl/nightly/cpu"
+            base_url = "https://download.pytorch.org/whl/cpu"
     else:
-        base_url = f"https://download.pytorch.org/whl/nightly/{cuda_version}"
+        base_url = f"https://download.pytorch.org/whl/{cuda_version}"
 
     cuda_suffix = f"+{cuda_version}" if cuda_version else ""
 
@@ -173,42 +131,40 @@ def generate_section_for_package(package_name, variants):
     result = StringIO()
     entries_by_version = defaultdict(list)
 
-    for nix_system, nix_python_version, package_version, cuda_version in variants:
-        platform_tag = nix_system_to_platform_tag[nix_system]
-        if package_name == "torchdata":
-            if "linux_x86_64" in platform_tag:
-                platform_tag = "manylinux_2_17_x86_64.manylinux2014_x86_64"
-            if platform_tag == "macosx_10_9_x86_64":
-                platform_tag = "macosx_10_13_x86_64"
-        if package_name == "torchaudio":
-            if platform_tag == "macosx_11_0_arm64":
-                platform_tag = "macosx_12_0_arm64"
+    for nix_system, package_version, cuda_version in variants:
+        for nix_python_version in supported_python_versions:
+            platform_tag = nix_system_to_platform_tag[nix_system]
+            if package_name in ("torchdata", "triton"):
+                if "linux_x86_64" in platform_tag:
+                    platform_tag = "manylinux_2_17_x86_64.manylinux2014_x86_64"
+                if platform_tag == "macosx_10_9_x86_64":
+                    platform_tag = "macosx_10_13_x86_64"
 
-        python_tag = to_python_tag(nix_python_version)
+            python_tag = to_python_tag(nix_python_version)
 
-        wheel_url = get_wheel_url(
-            package_name,
-            package_version,
-            python_tag,
-            platform_tag,
-            cuda_version=cuda_version,
-        )
-        wheel_name = get_torch_wheel_name(
-            package_name,
-            package_version,
-            python_tag,
-            platform_tag,
-        )
-        url_hash = get_url_hash(wheel_url, wheel_name)
-
-        entries_by_version[package_version].append(
-            generate_variant_entry(
-                f"{nix_system}-{nix_python_version}",
-                wheel_name,
-                wheel_url,
-                url_hash,
+            wheel_url = get_wheel_url(
+                package_name,
+                package_version,
+                python_tag,
+                platform_tag,
+                cuda_version=cuda_version,
             )
-        )
+            wheel_name = get_torch_wheel_name(
+                package_name,
+                package_version,
+                python_tag,
+                platform_tag,
+            )
+            url_hash = get_url_hash(wheel_url, wheel_name)
+
+            entries_by_version[package_version].append(
+                generate_variant_entry(
+                    f"{nix_system}-{nix_python_version}",
+                    wheel_name,
+                    wheel_url,
+                    url_hash,
+                )
+            )
 
     for version, entries in entries_by_version.items():
         content = "\n".join(entries)

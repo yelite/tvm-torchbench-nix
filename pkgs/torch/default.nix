@@ -13,7 +13,7 @@ in
   torch-bin = python-super.torch-bin.overridePythonAttrs
     (old:
       let
-        version = "2.0.0.dev20221214";
+        version = "2.0.0";
         unsupported = throw "Unsupported system for torch";
         wheels = import ./binary-hashes.nix "torch" version;
       in
@@ -23,16 +23,18 @@ in
 
         propagatedBuildInputs = old.propagatedBuildInputs ++ [
           python-super.networkx
+          python-super.filelock
+          python-super.jinja2
           python-super.sympy
         ] ++ lib.optionals stdenv.isLinux [
-          python-self.torchtriton-bin
+          python-self.triton-bin
         ];
       });
 
   torchvision-bin = python-super.torchvision-bin.overridePythonAttrs
     (old:
       let
-        version = "0.15.0.dev20221214";
+        version = "0.15.1";
         unsupported = throw "Unsupported system for torchvision-bin";
         wheels = import ./binary-hashes.nix "torchvision" version;
       in
@@ -49,7 +51,7 @@ in
   torchaudio-bin = python-super.torchaudio-bin.overridePythonAttrs
     (old:
       let
-        version = "0.14.0.dev20221214";
+        version = "2.0.1";
         unsupported = throw "Unsupported system for torchaudio-bin";
         wheels = import ./binary-hashes.nix "torchaudio" version;
       in
@@ -63,7 +65,7 @@ in
           });
       });
 
-  torchtriton-bin = python-self.callPackage ./torchtriton.nix { };
+  triton-bin = python-self.callPackage ./torchtriton.nix { };
   torchtext-bin = python-self.callPackage ./torchtext.nix { };
   torchdata-bin = python-self.callPackage ./torchdata.nix { };
 }

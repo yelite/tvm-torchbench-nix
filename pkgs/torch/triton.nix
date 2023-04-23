@@ -14,7 +14,7 @@ let
   pyVerNoDot = builtins.replaceStrings [ "." ] [ "" ] python.pythonVersion;
   srcs = import ./binary-hashes.nix "torchtriton" version;
   unsupported = throw "Unsupported system for torchtrion";
-  version = "2.0.0+0d7e753227";
+  version = "2.0.0";
 in
 buildPythonPackage {
   inherit version;

@@ -6,7 +6,6 @@
 , isPy39
 , isPy310
 , python
-, pytestCheckHook
 , pytorch-bin
 , requests
 , portalocker
@@ -16,7 +15,7 @@ let
   pyVerNoDot = builtins.replaceStrings [ "." ] [ "" ] python.pythonVersion;
   srcs = import ./binary-hashes.nix "torchdata" version;
   unsupported = throw "Unsupported system for torchdata";
-  version = "0.6.0.dev20221214";
+  version = "0.6.0";
 in
 buildPythonPackage {
   inherit version;

@@ -30,6 +30,7 @@
 , transformers  # TODO: TorchBench pins it to 4.20.1
 , psutil
 , pyyaml
+, pynvml
 , numpy  # TODO: TOrchBench pins it to 1.21.2
   # , kornia  doesn't exist https://github.com/kornia/kornia
 , scipy
@@ -91,7 +92,7 @@ let
         transformers # TODO: TorchBench pins it to 4.20.1
         psutil
         pyyaml
-        numpy # TODO: TOrchBench pins it to 1.21.2
+        numpy # TODO: TorchBench pins it to 1.21.2
         scipy
 
         # submitit  Only used in distributed benchmark
@@ -99,6 +100,8 @@ let
         # kornia  Only used for drq model
         # accelerate  Only used for e2e models
         # iopath  Not used 
+      ] ++ lib.optionals stdenv.isLinux [
+        pynvml
       ];
 
       passthru = {

@@ -16,7 +16,7 @@ let
   pyVerNoDot = builtins.replaceStrings [ "." ] [ "" ] python.pythonVersion;
   srcs = import ./binary-hashes.nix "torchtext" version;
   unsupported = throw "Unsupported system for torchtext";
-  version = "0.15.0.dev20221214";
+  version = "0.15.1";
 in
 buildPythonPackage {
   inherit version;
